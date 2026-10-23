@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1261a0;
+            color: white;
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 28px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #dce7f2;
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            margin-top: 0;
+            color: #1261a0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #dce7f2;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #1261a0;
+        }
+
+        .card p {
+            color: #617187;
+            line-height: 1.5;
+        }
+
+        .card a {
+            display: inline-block;
+            background: #1261a0;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            background: #0a4779;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #617187;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>❤️ LifeLine</h1>
+    <nav>
+        <a th:href="@{/dashboard}">Home</a>
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="welcome">
+        <h2>
+            Welcome, <span th:text="${user.name}">User</span>!
+        </h2>
+        <p>Your personal health companion is ready to help you.</p>
+        <p>Explore your health tools below.</p>
+    </section>
+
+    <section class="grid">
+
+        <article class="card">
+            <h3>🩺 Personal Health Records</h3>
+            <p>Save and view your personal health information.</p>
+            <a th:href="@{/health-dashboard}">Open Records</a>
+        </article>
+
+        <article class="card">
+            <h3>🔎 Symptom Checker</h3>
+            <p>Explore possible explanations for your symptoms.</p>
+            <a th:href="@{/symptoms}">Check Symptoms</a>
+        </article>
+
+        <article class="card">
+            <h3>💊 Medicine Information</h3>
+            <p>View basic medicine information and safety reminders.</p>
+            <a th:href="@{/medicines}">Explore Medicines</a>
+        </article>
+
+        <article class="card">
+            <h3>⏰ Health Reminders</h3>
+            <p>Manage reminders for your daily health routine.</p>
+            <a th:href="@{/reminders}">View Reminders</a>
+        </article>
+
+        <article class="card">
+            <h3>🏥 Hospital Finder</h3>
+            <p>Find hospital information using your location or place.</p>
+            <a th:href="@{/hospitals}">Find Hospitals</a>
+        </article>
+
+        <article class="card">
+            <h3>📅 Appointments</h3>
+            <p>Access your appointment feature.</p>
+            <a th:href="@{/appointments}">Appointments</a>
+        </article>
+
+        <article class="card">
+            <h3>🩸 Blood Connect</h3>
+            <p>Explore the blood donor connection feature.</p>
+            <a th:href="@{/blood-connect}">Blood Connect</a>
+        </article>
+
+        <article class="card">
+            <h3>🤖 AI Health Assistant</h3>
+            <p>Explore the planned AI health assistant feature.</p>
+            <a th:href="@{/ai-assistant}">Open Assistant</a>
+        </article>
+
+        <article class="card">
+            <h3>🚨 Emergency Help</h3>
+            <p>View emergency information and useful contacts.</p>
+            <a th:href="@{/emergency}">Emergency Help</a>
+        </article>
+
+        <article class="card">
+            <h3>👤 My Profile</h3>
+            <p>View your registered account information.</p>
+            <a th:href="@{/profile}">View Profile</a>
+        </article>
+
+    </section>
+</main>
+
+<footer>
+    LifeLine — Your Health Companion
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine - Medicine Information</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f7ff;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1565c0;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 6px;
+        }
+
+        nav {
+            background: #0d47a1;
+            padding: 13px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #1565c0;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #1565c0;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #1565c0;
+            text-decoration: none;
+        }
+
+        .notice {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>LifeLine</h1>
+    <p>Your Health Companion</p>
+</header>
+
+<nav>
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/profile}">Profile</a>
+    <a th:href="@{/symptom}">Symptoms</a>
+    <a th:href="@{/medicine}">Medicines</a>
+</nav>
+
+<div class="container">
+
+    <h2>Medicine Information</h2>
+
+    <p class="description">
+        Enter a medicine name to record it or prepare questions
+        for your pharmacist or healthcare professional.
+    </p>
+
+    <form th:action="@{/medicine}" method="post">
+
+        <label for="medicine">Choose a medicine</label>
+
+        <select id="medicine"
+                name="medicine"
+                onchange="toggleOtherMedicine()">
+
+            <option value="">-- Select a medicine --</option>
+            <option value="Paracetamol">Paracetamol</option>
+            <option value="Cetirizine">Cetirizine</option>
+            <option value="Antacid">Antacid</option>
+            <option value="ORS">Oral Rehydration Salts (ORS)</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <div id="otherMedicineSection" style="display: none;">
+            <label for="otherMedicine">Enter medicine name</label>
+            <input type="text"
+                   id="otherMedicine"
+                   name="otherMedicine"
+                   placeholder="Type the medicine name">
+        </div>
+
+        <label for="customMedicine">
+            Or type a medicine name directly
+        </label>
+
+        <input type="text"
+               id="customMedicine"
+               name="customMedicine"
+               placeholder="Enter any medicine name">
+
+        <label for="purpose">What do you want to know?</label>
+
+        <select id="purpose" name="purpose">
+            <option value="General Information">General information</option>
+            <option value="Side Effects">Possible side effects</option>
+            <option value="Interactions">Possible interactions</option>
+            <option value="Usage">How it is used</option>
+            <option value="Other Question">Other question</option>
+        </select>
+
+        <label for="details">Additional details or questions</label>
+
+        <textarea id="details"
+                  name="details"
+                  placeholder="Enter your question (optional)"></textarea>
+
+        <button type="submit">Submit Medicine Details</button>
+
+    </form>
+
+    <div class="notice">
+        This form does not prescribe medicines or determine a safe dose.
+        Confirm medicine use, dosage, and possible interactions with a
+        qualified healthcare professional or pharmacist.
+    </div>
+
+    <a class="back-link" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 LifeLine - Your Health Companion</p>
+</footer>
+
+<script>
+    function toggleOtherMedicine() {
+        const selected = document.getElementById("medicine").value;
+        const section = document.getElementById("otherMedicineSection");
+        const input = document.getElementById("otherMedicine");
+
+        section.style.display = selected === "Other" ? "block" : "none";
+        input.required = selected === "Other";
+
+        if (selected !== "Other") {
+            input.value = "";
+        }
+    }
+</script>
+
+</body>
+</html>

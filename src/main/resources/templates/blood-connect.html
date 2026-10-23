@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Connect | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1769aa;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #ccd8e5;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button, .map-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #1769aa;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .result {
+            background: #eef6ff;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .notice {
+            background: #fff1f1;
+            padding: 15px;
+            border-left: 5px solid #d64545;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .links a {
+            color: #1769aa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Blood Connect</h1>
+    <p>Connecting people with blood donation services</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Find Blood Banks</h2>
+
+        <label for="city">Select City</label>
+        <select id="city">
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Madurai">Madurai</option>
+            <option value="Tiruchirappalli">Tiruchirappalli</option>
+            <option value="Salem">Salem</option>
+            <option value="Erode">Erode</option>
+            <option value="Tirunelveli">Tirunelveli</option>
+            <option value="Vellore">Vellore</option>
+            <option value="Thanjavur">Thanjavur</option>
+            <option value="Tiruppur">Tiruppur</option>
+        </select>
+
+        <label for="bloodGroup">Blood Group (optional)</label>
+        <select id="bloodGroup">
+            <option value="">Any blood group</option>
+            <option>A+</option>
+            <option>A-</option>
+            <option>B+</option>
+            <option>B-</option>
+            <option>O+</option>
+            <option>O-</option>
+            <option>AB+</option>
+            <option>AB-</option>
+        </select>
+
+        <button type="button" onclick="searchBloodBanks()">
+            Find Blood Banks
+        </button>
+
+        <div id="searchResult"></div>
+    </div>
+
+    <div class="card">
+        <h2>Blood Donation Information</h2>
+
+        <p>
+            Donating blood can help patients who need transfusions
+            during surgery, accidents, and certain medical treatments.
+        </p>
+
+        <a href="https://eraktkosh.mohfw.gov.in/"
+           target="_blank" rel="noopener">
+            Visit India's e-RaktKosh Blood Bank Portal
+        </a>
+    </div>
+
+    <div class="notice">
+        <strong>Important:</strong>
+        This page searches for blood bank locations; it does not verify
+        real-time blood stock or donor availability. Contact the blood
+        bank directly to confirm availability. In an emergency, contact
+        local emergency services or the treating hospital immediately.
+    </div>
+
+    <div class="links">
+        <a th:href="@{/dashboard}">← Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+</div>
+
+<script>
+    function searchBloodBanks() {
+        const city = document.getElementById("city").value;
+        const group = document.getElementById("bloodGroup").value;
+
+        const query = "blood banks in " + city;
+
+        const result = document.getElementById("searchResult");
+        result.innerHTML = "";
+
+        const heading = document.createElement("h3");
+        heading.textContent = "Blood bank locations in " + city;
+
+        const message = document.createElement("p");
+        message.textContent = group
+            ? "Selected blood group: " + group +
+              ". Contact each blood bank to confirm current stock."
+            : "Contact the blood bank to confirm current stock.";
+
+        const link = document.createElement("a");
+        link.className = "map-link";
+        link.href =
+            "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(query);
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = "View Blood Banks on Google Maps";
+
+        result.appendChild(heading);
+        result.appendChild(message);
+        result.appendChild(link);
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Your Health Companion</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7fc;
+            color: #183153;
+        }
+
+        header {
+            background: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px #dce7f2;
+        }
+
+        header h1 {
+            color: #1261a0;
+            margin: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1261a0;
+            margin-left: 18px;
+            font-weight: bold;
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 55px auto;
+            padding: 30px 25px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 35px;
+            align-items: center;
+        }
+
+        .hero h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            line-height: 1.2;
+            margin-bottom: 18px;
+        }
+
+        .hero h2 span { color: #1261a0; }
+
+        .hero p {
+            color: #617187;
+            font-size: 17px;
+            line-height: 1.8;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 13px 22px;
+            border-radius: 8px;
+            background: #1261a0;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .button.secondary {
+            background: white;
+            color: #1261a0;
+            border: 1px solid #1261a0;
+        }
+
+        .illustration {
+            background: white;
+            padding: 40px 25px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px #dce7f2;
+        }
+
+        .heart {
+            font-size: 100px;
+            margin: 10px 0;
+        }
+
+        .illustration h3 {
+            color: #1261a0;
+        }
+
+        .features {
+            max-width: 1100px;
+            margin: 0 auto 50px;
+            padding: 0 25px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .feature {
+            background: white;
+            padding: 23px;
+            border-radius: 13px;
+            box-shadow: 0 4px 15px #dce7f2;
+        }
+
+        .feature h3 { color: #1261a0; }
+
+        .feature p {
+            color: #617187;
+            line-height: 1.6;
+        }
+
+        footer {
+            background: #1261a0;
+            color: white;
+            text-align: center;
+            padding: 22px;
+        }
+
+        @media (max-width: 700px) {
+            .hero {
+                grid-template-columns: 1fr;
+                margin: 25px auto;
+            }
+
+            nav a { margin-left: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>❤️ LifeLine</h1>
+
+    <nav>
+        <a th:href="@{/}">Home</a>
+        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/signup}">Sign Up</a>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero">
+        <div>
+            <h2>Your Health,<br>
+                <span>Our Priority.</span>
+            </h2>
+
+            <p>
+                Welcome to LifeLine, your personal health companion.
+                Keep track of your health records and explore helpful
+                health information in one convenient place.
+            </p>
+
+            <div class="buttons">
+                <a class="button" th:href="@{/signup}">
+                    Get Started
+                </a>
+
+                <a class="button secondary" th:href="@{/login}">
+                    Login
+                </a>
+            </div>
+        </div>
+
+        <div class="illustration">
+            <div class="heart">❤️‍🩹</div>
+            <h3>Care. Track. Stay Informed.</h3>
+            <p>Your health journey starts here.</p>
+        </div>
+    </section>
+
+    <section class="features">
+
+        <article class="feature">
+            <h3>🩺 Health Records</h3>
+            <p>Keep your personal health notes organized.</p>
+        </article>
+
+        <article class="feature">
+            <h3>🔎 Symptom Information</h3>
+            <p>Explore general information about common symptoms.</p>
+        </article>
+
+        <article class="feature">
+            <h3>💊 Medicine Information</h3>
+            <p>Access basic medicine information and safety guidance.</p>
+        </article>
+
+        <article class="feature">
+            <h3>🏥 Healthcare Access</h3>
+            <p>Explore hospital information and other health resources.</p>
+        </article>
+
+    </section>
+
+</main>
+
+<footer>
+    LifeLine — Your Health Companion
+</footer>
+
+</body>
+</html>

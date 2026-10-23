@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Login</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eaf5ff, #f7fbff);
+            color: #183153;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px #dce7f2;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1261a0;
+            margin: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #617187;
+            margin: 12px 0 25px;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccd8e5;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #9bc9ef;
+            border-color: #1261a0;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 13px;
+            background: #1261a0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #0a4779; }
+
+        .error {
+            padding: 12px;
+            border-radius: 7px;
+            background: #fdecea;
+            color: #a12622;
+        }
+
+        .success {
+            padding: 12px;
+            border-radius: 7px;
+            background: #e4f7e9;
+            color: #176b35;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 22px;
+            line-height: 1.9;
+        }
+
+        a {
+            color: #1261a0;
+            text-decoration: none;
+        }
+
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+
+<body>
+
+<main class="login-card">
+
+    <div class="logo">❤️</div>
+    <h1>LifeLine</h1>
+    <p class="subtitle">Welcome back! Sign in to continue.</p>
+
+    <p class="success" th:if="${param.registered}">
+        Account created successfully! Please log in.
+    </p>
+
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <form th:action="@{/login}" method="post">
+
+        <label for="username">Username</label>
+        <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            autocomplete="username"
+            required>
+
+        <label for="password">Password</label>
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="links">
+        Don't have an account?
+        <a th:href="@{/signup}">Create an account</a>
+        <br>
+        <a th:href="@{/}">Back to Home</a>
+    </div>
+
+</main>
+
+</body>
+</html>

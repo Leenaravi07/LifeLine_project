@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Help | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #c62828;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        .emergency-number {
+            color: #c62828;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .call-button, .map-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 18px;
+            background: #c62828;
+            color: white;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .map-button {
+            background: #1769aa;
+        }
+
+        .warning {
+            background: #fff1f1;
+            border-left: 5px solid #c62828;
+            padding: 15px;
+            line-height: 1.6;
+            border-radius: 8px;
+        }
+
+        li {
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .links a {
+            color: #1769aa;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Emergency Help</h1>
+    <p>Quick access to emergency support</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>National Emergency Number</h2>
+        <p>For urgent emergencies in India, call:</p>
+        <div class="emergency-number">112</div>
+        <a class="call-button" href="tel:112">Call 112</a>
+    </div>
+
+    <div class="card">
+        <h2>Find the Nearest Hospital</h2>
+        <p>
+            Open Google Maps to search for nearby hospitals.
+            Check the route and contact the hospital when possible.
+        </p>
+
+        <a class="map-button"
+           href="https://www.google.com/maps/search/?api=1&query=hospitals+near+me"
+           target="_blank" rel="noopener">
+            Find Nearby Hospitals
+        </a>
+    </div>
+
+    <div class="card">
+        <h2>Emergency Safety Tips</h2>
+
+        <ul>
+            <li>Stay calm and call emergency services when needed.</li>
+            <li>Tell the operator your location and what happened.</li>
+            <li>Follow instructions from emergency responders.</li>
+            <li>Do not give food, drink, or medicine to an unconscious person.</li>
+            <li>Do not move someone with a suspected serious neck or spine injury unless there is immediate danger.</li>
+            <li>If someone is unconscious and not breathing normally, call emergency services and follow the operator's CPR instructions.</li>
+        </ul>
+    </div>
+
+    <div class="warning">
+        <strong>Important:</strong>
+        LifeLine is a college project and is not an emergency
+        dispatch service. This page does not send your location
+        or alert emergency responders automatically.
+        For a life-threatening emergency, call 112 directly.
+    </div>
+
+    <div class="links">
+        <a th:href="@{/dashboard}">← Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Directory | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1769aa;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .search-box, .hospital-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccd8e5;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .hospital-card h3 {
+            color: #1769aa;
+            margin-top: 0;
+        }
+
+        .hospital-card p {
+            line-height: 1.5;
+        }
+
+        .map-link {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 7px;
+            background: #1769aa;
+            color: white;
+            text-decoration: none;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .links a {
+            color: #1769aa;
+            text-decoration: none;
+        }
+
+        .emergency {
+            background: #fff1f1;
+            border-left: 5px solid #d64545;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        #noResults {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>LifeLine Hospital Directory</h1>
+    <p>Find hospitals across Tamil Nadu</p>
+</header>
+
+<div class="container">
+
+    <div class="emergency">
+        <strong>Medical emergency?</strong>
+        Call India's emergency number <strong>112</strong>
+        or go to the nearest emergency department.
+    </div>
+
+    <div class="search-box">
+        <h2>Search Hospitals</h2>
+
+        <label for="city">Select City</label>
+        <select id="city">
+            <option value="all">All Cities</option>
+            <option value="Coimbatore">Coimbatore</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Madurai">Madurai</option>
+            <option value="Trichy">Trichy</option>
+            <option value="Salem">Salem</option>
+        </select>
+
+        <label for="search">Hospital Name</label>
+        <input type="text" id="search"
+               placeholder="Search by hospital name...">
+    </div>
+
+    <div class="hospital-grid" id="hospitalList">
+
+        <!-- Existing Coimbatore hospitals -->
+
+        <div class="hospital-card" data-city="Coimbatore">
+            <h3>Government Coimbatore Medical College Hospital</h3>
+            <p><strong>City:</strong> Coimbatore</p>
+            <p><strong>Type:</strong> Government Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Government+Coimbatore+Medical+College+Hospital"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Coimbatore">
+            <h3>KG Hospital</h3>
+            <p><strong>City:</strong> Coimbatore</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=KG+Hospital+Coimbatore"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Coimbatore">
+            <h3>GKNM Hospital</h3>
+            <p><strong>City:</strong> Coimbatore</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=GKNM+Hospital+Coimbatore"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <!-- Newly added GEM Hospital -->
+
+        <div class="hospital-card" data-city="Coimbatore">
+            <h3>GEM Hospital</h3>
+            <p><strong>City:</strong> Coimbatore</p>
+            <p><strong>Address:</strong> 45, Pankaja Mills Road,
+                Ramanathapuram, Coimbatore - 641045</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=GEM+Hospital+Coimbatore"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <!-- Newly added Sri Ramakrishna Hospital -->
+
+        <div class="hospital-card" data-city="Coimbatore">
+            <h3>Sri Ramakrishna Hospital</h3>
+            <p><strong>City:</strong> Coimbatore</p>
+            <p><strong>Address:</strong> 395, Sarojini Naidu Road,
+                New Siddhapudur, Coimbatore - 641044</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Sri+Ramakrishna+Hospital+Coimbatore"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <!-- Existing Chennai hospitals -->
+
+        <div class="hospital-card" data-city="Chennai">
+            <h3>Apollo Hospitals, Greams Road</h3>
+            <p><strong>City:</strong> Chennai</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Apollo+Hospitals+Greams+Road+Chennai"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Chennai">
+            <h3>Government Stanley Medical College Hospital</h3>
+            <p><strong>City:</strong> Chennai</p>
+            <p><strong>Type:</strong> Government Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Government+Stanley+Medical+College+Hospital+Chennai"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Chennai">
+            <h3>Aravind Eye Hospital</h3>
+            <p><strong>City:</strong> Chennai</p>
+            <p><strong>Type:</strong> Eye Care</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Aravind+Eye+Hospital+Chennai"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <!-- Existing Madurai hospitals -->
+
+        <div class="hospital-card" data-city="Madurai">
+            <h3>Government Rajaji Hospital</h3>
+            <p><strong>City:</strong> Madurai</p>
+            <p><strong>Type:</strong> Government Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Government+Rajaji+Hospital+Madurai"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Madurai">
+            <h3>Apollo Speciality Hospitals</h3>
+            <p><strong>City:</strong> Madurai</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Apollo+Speciality+Hospitals+Madurai"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Madurai">
+            <h3>Velammal Hospital</h3>
+            <p><strong>City:</strong> Madurai</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Velammal+Hospital+Madurai"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <!-- Existing Trichy hospitals -->
+
+        <div class="hospital-card" data-city="Trichy">
+            <h3>Kauvery Hospital</h3>
+            <p><strong>City:</strong> Trichy</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Kauvery+Hospital+Trichy"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Trichy">
+            <h3>Apollo Speciality Hospitals</h3>
+            <p><strong>City:</strong> Trichy</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Apollo+Speciality+Hospitals+Trichy"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <!-- Existing Salem hospitals -->
+
+        <div class="hospital-card" data-city="Salem">
+            <h3>Shanmuga Hospital</h3>
+            <p><strong>City:</strong> Salem</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Shanmuga+Hospital+Salem"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+        <div class="hospital-card" data-city="Salem">
+            <h3>Kauvery Hospital</h3>
+            <p><strong>City:</strong> Salem</p>
+            <p><strong>Type:</strong> Multispeciality Hospital</p>
+            <a class="map-link"
+               href="https://www.google.com/maps/search/?api=1&query=Kauvery+Hospital+Salem"
+               target="_blank" rel="noopener">View on Map</a>
+        </div>
+
+    </div>
+
+    <p id="noResults">No hospitals found. Try another name or city.</p>
+
+    <div class="links">
+        <a th:href="@{/dashboard}">← Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+</div>
+
+<script>
+    const citySelect = document.getElementById("city");
+    const searchInput = document.getElementById("search");
+    const cards = document.querySelectorAll(".hospital-card");
+    const noResults = document.getElementById("noResults");
+
+    function filterHospitals() {
+        const city = citySelect.value;
+        const search = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        cards.forEach(function(card) {
+            const matchesCity =
+                city === "all" || card.dataset.city === city;
+
+            const matchesName =
+                card.textContent.toLowerCase().includes(search);
+
+            const show = matchesCity && matchesName;
+
+            card.style.display = show ? "block" : "none";
+
+            if (show) {
+                visibleCount++;
+            }
+        });
+
+        noResults.style.display =
+            visibleCount === 0 ? "block" : "none";
+    }
+
+    citySelect.addEventListener("change", filterHospitals);
+    searchInput.addEventListener("input", filterHospitals);
+</script>
+
+</body>
+</html>

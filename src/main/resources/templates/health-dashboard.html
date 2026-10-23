@@ -1,0 +1,218 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Health Records</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1261a0;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h1 { margin: 0; }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .panel {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #dce7f2;
+        }
+
+        h2 { color: #1261a0; }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd8e5;
+            border-radius: 7px;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button, .back-button {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #1261a0;
+            color: white;
+            font-size: 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        button:hover, .back-button:hover {
+            background: #0a4779;
+        }
+
+        .delete-button {
+            background: #c0392b;
+            margin-top: 8px;
+        }
+
+        .delete-button:hover {
+            background: #922b21;
+        }
+
+        .record {
+            padding: 16px 0;
+            border-bottom: 1px solid #e3ebf3;
+        }
+
+        .record:last-child { border-bottom: none; }
+
+        .record h3 {
+            margin-bottom: 5px;
+            color: #183153;
+        }
+
+        .message {
+            padding: 12px;
+            background: #e4f7e9;
+            color: #176b35;
+            border-radius: 7px;
+        }
+
+        .error {
+            padding: 12px;
+            background: #fdecea;
+            color: #a12622;
+            border-radius: 7px;
+        }
+
+        .empty { color: #617187; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #617187;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>❤️ LifeLine</h1>
+    <nav>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/profile}">Profile</a>
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main class="container">
+
+    <section class="panel">
+        <h2>Personal Health Records</h2>
+        <p>
+            Welcome, <strong th:text="${user.name}">User</strong>!
+        </p>
+        <p>Save and review your health notes in one place.</p>
+
+        <p class="message"
+           th:if="${message}"
+           th:text="${message}"></p>
+
+        <p class="error"
+           th:if="${error}"
+           th:text="${error}"></p>
+
+        <form th:action="@{/health-dashboard}" method="post">
+
+            <label for="conditionName">Health condition or record</label>
+            <input
+                type="text"
+                id="conditionName"
+                name="conditionName"
+                maxlength="100"
+                placeholder="Example: Regular check-up"
+                required>
+
+            <label for="notes">Additional notes</label>
+            <textarea
+                id="notes"
+                name="notes"
+                maxlength="1000"
+                placeholder="Enter optional notes"></textarea>
+
+            <button type="submit">Save Health Record</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>My Saved Records</h2>
+
+        <p class="empty" th:if="${#lists.isEmpty(records)}">
+            No health records saved yet. Add your first record above.
+        </p>
+
+        <div th:each="record : ${records}" class="record">
+            <h3 th:text="${record.conditionName}">Health record</h3>
+
+            <p th:if="${record.notes != null and !record.notes.isEmpty()}"
+               th:text="${record.notes}"></p>
+
+            <form th:action="@{/health-dashboard/delete}" method="post">
+                <input type="hidden" name="id" th:value="${record.id}">
+                <button type="submit" class="delete-button">
+                    Delete Record
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <a class="back-button" th:href="@{/dashboard}">
+        ← Back to Dashboard
+    </a>
+
+</main>
+
+<footer>
+    LifeLine — Your Health Companion
+</footer>
+
+</body>
+</html>

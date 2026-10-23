@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine - Symptom Checker</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f7ff;
+            color: #1e293b;
+        }
+
+        header {
+            background: #1565c0;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin-bottom: 6px;
+        }
+
+        nav {
+            background: #0d47a1;
+            padding: 13px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #1565c0;
+            margin-bottom: 12px;
+        }
+
+        .description {
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #1565c0;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0d47a1;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #1565c0;
+            text-decoration: none;
+        }
+
+        .notice {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 7px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>LifeLine</h1>
+    <p>Your Health Companion</p>
+</header>
+
+<nav>
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:href="@{/profile}">Profile</a>
+    <a th:href="@{/symptom}">Symptoms</a>
+    <a th:href="@{/medicine}">Medicines</a>
+</nav>
+
+<div class="container">
+
+    <h2>Symptom Checker</h2>
+
+    <p class="description">
+        Enter the symptoms you are experiencing to record them
+        and discuss them with a healthcare professional.
+    </p>
+
+    <form th:action="@{/symptom}" method="post">
+
+        <label for="symptom">Choose a symptom</label>
+
+        <select id="symptom"
+                name="symptom"
+                onchange="toggleOtherSymptom()">
+
+            <option value="">-- Select a symptom --</option>
+            <option value="Fever">Fever</option>
+            <option value="Headache">Headache</option>
+            <option value="Cough">Cough</option>
+            <option value="Cold">Cold</option>
+            <option value="Stomach Pain">Stomach Pain</option>
+            <option value="Nausea">Nausea</option>
+            <option value="Dizziness">Dizziness</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <div id="otherSymptomSection" style="display: none;">
+            <label for="otherSymptom">Enter your symptom</label>
+            <input type="text"
+                   id="otherSymptom"
+                   name="otherSymptom"
+                   placeholder="Type any symptom">
+        </div>
+
+        <label for="customSymptom">
+            Or type your symptom directly
+        </label>
+
+        <input type="text"
+               id="customSymptom"
+               name="customSymptom"
+               placeholder="Example: throat irritation">
+
+        <label for="duration">How long have you had it?</label>
+
+        <input type="text"
+               id="duration"
+               name="duration"
+               placeholder="Example: since yesterday">
+
+        <label for="details">Additional details</label>
+
+        <textarea id="details"
+                  name="details"
+                  placeholder="Describe how you feel (optional)"></textarea>
+
+        <button type="submit">Submit Symptoms</button>
+
+    </form>
+
+    <div class="notice">
+        This tool does not diagnose medical conditions. If symptoms are
+        severe or sudden, seek urgent medical attention.
+    </div>
+
+    <a class="back-link" th:href="@{/dashboard}">
+        Back to Dashboard
+    </a>
+
+</div>
+
+<footer>
+    <p>&copy; 2026 LifeLine - Your Health Companion</p>
+</footer>
+
+<script>
+    function toggleOtherSymptom() {
+        const selected = document.getElementById("symptom").value;
+        const section = document.getElementById("otherSymptomSection");
+        const input = document.getElementById("otherSymptom");
+
+        section.style.display = selected === "Other" ? "block" : "none";
+        input.required = selected === "Other";
+
+        if (selected !== "Other") {
+            input.value = "";
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | My Profile</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1261a0;
+            color: white;
+            padding: 22px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h1 { margin: 0; }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        main {
+            max-width: 650px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #dce7f2;
+        }
+
+        .avatar {
+            width: 85px;
+            height: 85px;
+            border-radius: 50%;
+            background: #dceeff;
+            color: #1261a0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 18px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1261a0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #617187;
+            margin-bottom: 28px;
+        }
+
+        .detail {
+            padding: 15px 0;
+            border-bottom: 1px solid #e3ebf3;
+        }
+
+        .detail:last-child { border-bottom: none; }
+
+        .label {
+            color: #617187;
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .value {
+            font-size: 17px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 18px;
+            border-radius: 7px;
+            background: #1261a0;
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover { background: #0a4779; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #617187;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>❤️ LifeLine</h1>
+    <nav>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main>
+    <section class="profile-card">
+
+        <div class="avatar">👤</div>
+
+        <h2>My Profile</h2>
+        <p class="subtitle">Your registered account information</p>
+
+        <div class="detail">
+            <div class="label">Full Name</div>
+            <div class="value" th:text="${user.name}">User Name</div>
+        </div>
+
+        <div class="detail">
+            <div class="label">Age</div>
+            <div class="value" th:text="${user.age}">20</div>
+        </div>
+
+        <div class="detail">
+            <div class="label">Place</div>
+            <div class="value" th:text="${user.place}">Your Place</div>
+        </div>
+
+        <div class="detail">
+            <div class="label">Username</div>
+            <div class="value" th:text="${user.username}">username</div>
+        </div>
+
+        <a class="button" th:href="@{/dashboard}">
+            ← Back to Dashboard
+        </a>
+
+    </section>
+</main>
+
+<footer>LifeLine — Your Health Companion</footer>
+
+</body>
+</html>

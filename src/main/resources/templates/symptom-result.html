@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Symptom Information</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f7fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1261a0;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h1 { margin: 0; }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        main {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px #dce7f2;
+        }
+
+        h2 { color: #1261a0; }
+
+        .result {
+            padding: 18px;
+            background: #eaf5ff;
+            border-radius: 10px;
+            line-height: 1.7;
+        }
+
+        .notice {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff4d6;
+            color: #765719;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 18px;
+            margin-right: 8px;
+            padding: 12px 18px;
+            background: #1261a0;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button:hover { background: #0a4779; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #617187;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>❤️ LifeLine</h1>
+    <nav>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+</header>
+
+<main>
+    <section class="card">
+
+        <h2>Symptom Information</h2>
+
+        <div class="result">
+            <h3>
+                Selected symptom:
+                <span th:text="${symptomName}">Symptom</span>
+            </h3>
+
+            <p th:text="${information}">
+                General symptom information will appear here.
+            </p>
+
+            <p th:if="${details != null and !details.isEmpty()}">
+                <strong>Your additional details:</strong>
+                <span th:text="${details}"></span>
+            </p>
+        </div>
+
+        <div class="notice">
+            This information is educational only and is not a diagnosis.
+            Consult a qualified healthcare professional for medical advice.
+            If you have severe chest pain, serious breathing difficulty,
+            fainting, or another emergency, seek emergency care immediately.
+        </div>
+
+        <a class="button" th:href="@{/symptoms}">
+            Check Another Symptom
+        </a>
+
+        <a class="button" th:href="@{/dashboard}">
+            Back to Dashboard
+        </a>
+
+    </section>
+</main>
+
+<footer>LifeLine — Your Health Companion</footer>
+
+</body>
+</html>

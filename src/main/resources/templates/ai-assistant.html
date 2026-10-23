@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Health Assistant | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1769aa;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .chat-box {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        #messages {
+            height: 350px;
+            overflow-y: auto;
+            border: 1px solid #e0e8f1;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            max-width: 90%;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .bot {
+            background: #eef6ff;
+            margin-right: auto;
+        }
+
+        .user {
+            background: #1769aa;
+            color: white;
+            margin-left: auto;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            min-width: 0;
+            padding: 12px;
+            border: 1px solid #ccd8e5;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            padding: 12px 18px;
+            background: #1769aa;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .notice {
+            background: #fff6df;
+            padding: 15px;
+            margin-top: 18px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .links a {
+            color: #1769aa;
+            text-decoration: none;
+        }
+
+        @media (max-width: 480px) {
+            .input-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>LifeLine AI Assistant</h1>
+    <p>Your health information companion</p>
+</header>
+
+<div class="container">
+
+    <div class="chat-box">
+        <h2>Ask a Health Question</h2>
+
+        <div id="messages" aria-live="polite">
+            <div class="message bot">
+                Hello! Welcome to LifeLine.
+
+                You can ask me about general health,
+                healthy habits, hydration, sleep, and exercise.
+
+                I am a demo assistant and cannot diagnose
+                conditions or recommend personalised treatment.
+            </div>
+        </div>
+
+        <form id="chatForm">
+            <div class="input-row">
+                <input type="text" id="question"
+                       placeholder="Type your question..."
+                       maxlength="500" required>
+
+                <button type="submit">Send</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="notice">
+        <strong>Medical safety:</strong>
+        This demo provides general educational information only.
+        For medical concerns, consult a qualified healthcare
+        professional. For severe symptoms such as difficulty
+        breathing or severe chest pain, seek emergency care.
+    </div>
+
+    <div class="links">
+        <a th:href="@{/dashboard}">← Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+</div>
+
+<script>
+    const chatForm = document.getElementById("chatForm");
+    const questionInput = document.getElementById("question");
+    const messages = document.getElementById("messages");
+
+    function addMessage(text, className) {
+        const message = document.createElement("div");
+        message.className = "message " + className;
+        message.textContent = text;
+        messages.appendChild(message);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    function getDemoReply(question) {
+        const q = question.toLowerCase();
+
+        if (
+            q.includes("chest pain") ||
+            q.includes("difficulty breathing") ||
+            q.includes("can't breathe") ||
+            q.includes("cannot breathe")
+        ) {
+            return "Chest pain or difficulty breathing can be serious. Seek emergency medical care now if these symptoms are severe, sudden, or ongoing. In India, call 112 for an emergency.";
+        }
+
+        if (
+            q.includes("water") ||
+            q.includes("hydration") ||
+            q.includes("thirst")
+        ) {
+            return "Drink water regularly throughout the day. Your fluid needs vary with activity, weather, and health. Ask a healthcare professional if you have been advised to restrict fluids.";
+        }
+
+        if (
+            q.includes("sleep") ||
+            q.includes("tired") ||
+            q.includes("fatigue")
+        ) {
+            return "A regular sleep schedule and a comfortable sleep environment may help. If tiredness is persistent or affects daily activities, consult a healthcare professional.";
+        }
+
+        if (
+            q.includes("exercise") ||
+            q.includes("fitness") ||
+            q.includes("walking")
+        ) {
+            return "Regular physical activity can support general health. Start at a level that suits you and increase gradually. Ask a healthcare professional if you have symptoms or concerns about exercising.";
+        }
+
+        if (
+            q.includes("fever") ||
+            q.includes("headache") ||
+            q.includes("pain") ||
+            q.includes("medicine") ||
+            q.includes("tablet")
+        ) {
+            return "I cannot diagnose symptoms or recommend a specific medicine. Please consult a qualified healthcare professional, especially if symptoms are severe, worsening, or persistent.";
+        }
+
+        return "Thanks for your question! This demo has limited responses and cannot provide a personalised medical answer. Please consult a qualified healthcare professional for advice about your health.";
+    }
+
+    chatForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const question = questionInput.value.trim();
+
+        if (!question) {
+            return;
+        }
+
+        addMessage(question, "user");
+        questionInput.value = "";
+
+        addMessage(getDemoReply(question), "bot");
+        questionInput.focus();
+    });
+</script>
+
+</body>
+</html>

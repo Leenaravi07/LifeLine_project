@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Appointments | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1769aa;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px #0000000a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #ccd8e5;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: #1769aa;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #10558b;
+        }
+
+        .map-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #1769aa;
+        }
+
+        .notice {
+            background: #fff6df;
+            padding: 12px;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .links a {
+            color: #1769aa;
+            text-decoration: none;
+        }
+
+        #hospitalLocation {
+            background: #eef6ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .saved-request {
+            background: #eef6ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .saved-request p {
+            line-height: 1.6;
+        }
+
+        .secondary-button {
+            background: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Book a Hospital Appointment</h1>
+    <p>Choose a hospital across Tamil Nadu</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Appointment Details</h2>
+
+        <form id="appointmentForm">
+
+            <label for="city">Select City</label>
+            <select id="city" required>
+                <option value="">Choose a city</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Madurai">Madurai</option>
+                <option value="Trichy">Trichy</option>
+                <option value="Salem">Salem</option>
+                <option value="Other">Other City</option>
+            </select>
+
+            <div id="otherCitySection" style="display:none;">
+                <label for="otherCity">Enter City Name</label>
+                <input type="text" id="otherCity"
+                       placeholder="Type city name">
+            </div>
+
+            <label for="hospital">Select or Type Hospital Name</label>
+
+            <input type="text"
+                   id="hospital"
+                   list="hospitalOptions"
+                   placeholder="Choose a city first or type hospital name"
+                   autocomplete="off"
+                   required>
+
+            <datalist id="hospitalOptions"></datalist>
+
+            <div id="hospitalLocation">
+                The hospital's location will appear here.
+            </div>
+
+            <a id="mapLink" class="map-link"
+               href="#" target="_blank" rel="noopener"
+               style="display:none">
+                View Hospital on Google Maps
+            </a>
+
+            <label for="patientName">Patient Name</label>
+            <input type="text" id="patientName"
+                   placeholder="Enter patient name" required>
+
+            <label for="date">Preferred Appointment Date</label>
+            <input type="date" id="date" required>
+
+            <label for="time">Preferred Appointment Time</label>
+            <input type="time" id="time" required>
+
+            <label for="reason">Reason for Visit</label>
+            <textarea id="reason" rows="3"
+                      placeholder="Briefly describe the reason"
+                      required></textarea>
+
+            <button type="submit">Save Appointment Request</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Your Saved Requests</h2>
+        <div id="appointmentList">No requests saved yet.</div>
+    </div>
+
+    <div class="notice">
+        <strong>Important:</strong> This is a college project demo.
+        Requests are saved in this browser only. Saving a request does
+        not book an actual hospital appointment. Contact the hospital
+        directly to confirm availability.
+    </div>
+
+    <div class="links">
+        <a th:href="@{/dashboard}">← Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+
+</div>
+
+<script>
+    const hospitals = {
+        "Coimbatore": [
+            {
+                name: "Government Coimbatore Medical College Hospital",
+                location: "Avinashi Road, Coimbatore, Tamil Nadu"
+            },
+            {
+                name: "KG Hospital",
+                location: "Arts College Road, Coimbatore, Tamil Nadu"
+            },
+            {
+                name: "GKNM Hospital",
+                location: "Pappanaickenpalayam, Coimbatore, Tamil Nadu"
+            },
+            {
+                name: "GEM Hospital",
+                location: "45, Pankaja Mills Road, Ramanathapuram, Coimbatore, Tamil Nadu"
+            },
+            {
+                name: "Sri Ramakrishna Hospital",
+                location: "395, Sarojini Naidu Road, New Siddhapudur, Coimbatore, Tamil Nadu"
+            }
+        ],
+
+        "Chennai": [
+            {
+                name: "Apollo Hospitals, Greams Road",
+                location: "Greams Road, Chennai, Tamil Nadu"
+            },
+            {
+                name: "Government Stanley Medical College Hospital",
+                location: "Old Jail Road, Chennai, Tamil Nadu"
+            },
+            {
+                name: "Aravind Eye Hospital",
+                location: "Poonamallee High Road area, Chennai, Tamil Nadu"
+            }
+        ],
+
+        "Madurai": [
+            {
+                name: "Government Rajaji Hospital",
+                location: "Panagal Road, Madurai, Tamil Nadu"
+            },
+            {
+                name: "Apollo Speciality Hospitals",
+                location: "Lake View Road, K.K. Nagar, Madurai, Tamil Nadu"
+            },
+            {
+                name: "Velammal Hospital",
+                location: "Anuppanadi, Madurai, Tamil Nadu"
+            }
+        ],
+
+        "Trichy": [
+            {
+                name: "Kauvery Hospital",
+                location: "Tennur, Tiruchirappalli, Tamil Nadu"
+            },
+            {
+                name: "Apollo Speciality Hospitals",
+                location: "Old Palpannai area, Tiruchirappalli, Tamil Nadu"
+            }
+        ],
+
+        "Salem": [
+            {
+                name: "Shanmuga Hospital",
+                location: "Saradha College Road, Salem, Tamil Nadu"
+            },
+            {
+                name: "Kauvery Hospital",
+                location: "Seelanaickenpatti area, Salem, Tamil Nadu"
+            }
+        ]
+    };
+
+    const citySelect = document.getElementById("city");
+    const otherCityInput = document.getElementById("otherCity");
+    const otherCitySection = document.getElementById("otherCitySection");
+    const hospitalInput = document.getElementById("hospital");
+    const hospitalOptions = document.getElementById("hospitalOptions");
+    const locationBox = document.getElementById("hospitalLocation");
+    const mapLink = document.getElementById("mapLink");
+    const dateInput = document.getElementById("date");
+
+    const today = new Date();
+    const localToday = new Date(
+        today.getTime() - today.getTimezoneOffset() * 60000
+    ).toISOString().split("T")[0];
+
+    dateInput.min = localToday;
+
+    function getSelectedCity() {
+        if (citySelect.value === "Other") {
+            return otherCityInput.value.trim();
+        }
+        return citySelect.value;
+    }
+
+    function updateHospitalOptions() {
+        const city = getSelectedCity();
+
+        hospitalOptions.innerHTML = "";
+
+        const cityHospitals = hospitals[city] || [];
+
+        cityHospitals.forEach(function(item) {
+            const option = document.createElement("option");
+            option.value = item.name;
+            hospitalOptions.appendChild(option);
+        });
+
+        updateHospitalLocation();
+    }
+
+    function updateHospitalLocation() {
+        const city = getSelectedCity();
+        const name = hospitalInput.value.trim();
+
+        const cityHospitals = hospitals[city] || [];
+
+        const selected = cityHospitals.find(function(item) {
+            return item.name.toLowerCase() === name.toLowerCase();
+        });
+
+        if (selected) {
+            locationBox.textContent =
+                selected.name + " — " + selected.location;
+        } else if (name) {
+            locationBox.textContent =
+                "Hospital entered: " + name +
+                ". Its address will be searched on Google Maps.";
+        } else {
+            locationBox.textContent =
+                "The hospital's location will appear here.";
+            mapLink.style.display = "none";
+            return;
+        }
+
+        const mapQuery = selected
+            ? selected.name + " " + selected.location
+            : name + " " + city;
+
+        mapLink.href =
+            "https://www.google.com/maps/search/?api=1&query=" +
+            encodeURIComponent(mapQuery);
+
+        mapLink.style.display = "inline-block";
+    }
+
+    citySelect.addEventListener("change", function() {
+        const isOther = citySelect.value === "Other";
+
+        otherCitySection.style.display = isOther ? "block" : "none";
+        otherCityInput.required = isOther;
+
+        if (!isOther) {
+            otherCityInput.value = "";
+        }
+
+        hospitalInput.value = "";
+        updateHospitalOptions();
+    });
+
+    otherCityInput.addEventListener("input", function() {
+        updateHospitalOptions();
+    });
+
+    hospitalInput.addEventListener("input", updateHospitalLocation);
+    hospitalInput.addEventListener("change", updateHospitalLocation);
+
+    const appointmentList = document.getElementById("appointmentList");
+    let appointments = [];
+
+    try {
+        appointments = JSON.parse(
+            localStorage.getItem("lifelineAppointments") || "[]"
+        );
+
+        if (!Array.isArray(appointments)) {
+            appointments = [];
+        }
+    } catch (error) {
+        appointments = [];
+    }
+
+    function saveAppointments() {
+        try {
+            localStorage.setItem(
+                "lifelineAppointments",
+                JSON.stringify(appointments)
+            );
+            return true;
+        } catch (error) {
+            alert("Could not save the request in this browser.");
+            return false;
+        }
+    }
+
+    function displayAppointments() {
+        appointmentList.innerHTML = "";
+
+        if (appointments.length === 0) {
+            appointmentList.textContent = "No requests saved yet.";
+            return;
+        }
+
+        appointments.forEach(function(item, index) {
+            const card = document.createElement("div");
+            card.className = "saved-request";
+
+            const details = document.createElement("p");
+            details.textContent =
+                item.patient + " — " + item.hospital +
+                " (" + item.city + "), " + item.location +
+                ". Preferred: " + item.date + " at " + item.time +
+                ". Reason: " + item.reason +
+                ". Status: Request saved locally; not confirmed.";
+
+            const remove = document.createElement("button");
+            remove.textContent = "Delete Request";
+            remove.className = "secondary-button";
+
+            remove.addEventListener("click", function() {
+                appointments.splice(index, 1);
+
+                if (saveAppointments()) {
+                    displayAppointments();
+                }
+            });
+
+            card.appendChild(details);
+            card.appendChild(remove);
+            appointmentList.appendChild(card);
+        });
+    }
+
+    document.getElementById("appointmentForm")
+        .addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const city = getSelectedCity();
+            const hospitalName = hospitalInput.value.trim();
+
+            const selected = (hospitals[city] || []).find(function(item) {
+                return item.name.toLowerCase() === hospitalName.toLowerCase();
+            });
+
+            if (!city || !hospitalName) {
+                alert("Please enter a city and hospital name.");
+                return;
+            }
+
+            const patient =
+                document.getElementById("patientName").value.trim();
+            const reason =
+                document.getElementById("reason").value.trim();
+            const appointmentDate = dateInput.value;
+            const appointmentTime =
+                document.getElementById("time").value;
+
+            if (!patient || !reason || !appointmentDate ||
+                !appointmentTime || appointmentDate < localToday) {
+                alert("Please enter valid appointment details.");
+                return;
+            }
+
+            const item = {
+                patient: patient,
+                city: city,
+                hospital: selected ? selected.name : hospitalName,
+                location: selected
+                    ? selected.location
+                    : "Address not listed. Use the Google Maps link to find the hospital.",
+                date: appointmentDate,
+                time: appointmentTime,
+                reason: reason
+            };
+
+            appointments.push(item);
+
+            if (saveAppointments()) {
+                displayAppointments();
+                this.reset();
+
+                hospitalOptions.innerHTML = "";
+                locationBox.textContent =
+                    "The hospital's location will appear here.";
+                mapLink.style.display = "none";
+                otherCitySection.style.display = "none";
+            }
+        });
+
+    displayAppointments();
+</script>
+
+</body>
+</html>

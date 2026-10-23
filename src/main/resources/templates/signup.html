@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine | Sign Up</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 15px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eaf5ff, #f7fbff);
+            color: #183153;
+        }
+
+        .signup-card {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px #dce7f2;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 34px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1261a0;
+            margin: 5px 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #617187;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            margin: 14px 0 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd8e5;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        input:focus {
+            outline: 2px solid #9bc9ef;
+            border-color: #1261a0;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 24px;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #1261a0;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover { background: #0a4779; }
+
+        .error {
+            padding: 12px;
+            border-radius: 7px;
+            background: #fdecea;
+            color: #a12622;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #1261a0;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="signup-card">
+
+    <div class="logo">❤️</div>
+    <h1>Create Account</h1>
+    <p class="subtitle">Join LifeLine — Your Health Companion</p>
+
+    <p class="error" th:if="${error}" th:text="${error}"></p>
+
+    <form th:action="@{/signup}" method="post">
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name"
+               placeholder="Enter your full name"
+               maxlength="100" required>
+
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age"
+               min="1" max="120"
+               placeholder="Enter your age" required>
+
+        <label for="place">Place</label>
+        <input type="text" id="place" name="place"
+               placeholder="Enter your city or town"
+               maxlength="100" required>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username"
+               placeholder="Choose a username"
+               maxlength="50"
+               autocomplete="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password"
+               placeholder="At least 8 characters"
+               minlength="8"
+               autocomplete="new-password" required>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword"
+               name="confirmPassword"
+               placeholder="Re-enter your password"
+               minlength="8"
+               autocomplete="new-password" required>
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <div class="links">
+        Already have an account?
+        <a th:href="@{/login}">Login</a>
+        <p><a th:href="@{/}">Back to Home</a></p>
+    </div>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,229 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Reminders | LifeLine</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f6fc;
+            color: #183153;
+        }
+
+        header {
+            background: #1769aa;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 35px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px #00000010;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 7px;
+            border: 1px solid #ccd8e5;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            background: #1769aa;
+            color: white;
+            cursor: pointer;
+        }
+
+        .reminder {
+            margin-top: 12px;
+            padding: 15px;
+            background: #eef6ff;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+        }
+
+        .delete-btn {
+            background: #d64545;
+            margin-top: 8px;
+        }
+
+        a {
+            color: #1769aa;
+            text-decoration: none;
+        }
+
+        .links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        .note {
+            color: #64748b;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Health Reminders</h1>
+    <p>Build healthy habits with LifeLine</p>
+</header>
+
+<div class="container">
+    <h2>Add a Reminder</h2>
+
+    <form id="reminderForm">
+        <label for="title">Reminder Title</label>
+        <input type="text" id="title"
+               placeholder="e.g. Drink water or take medicine"
+               required>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" required>
+
+        <label for="time">Time</label>
+        <input type="time" id="time" required>
+
+        <label for="note">Additional Note</label>
+        <textarea id="note" rows="3"
+                  placeholder="Optional notes"></textarea>
+
+        <button type="submit">Save Reminder</button>
+    </form>
+
+    <p class="note">
+        Reminders are saved in this browser on this device.
+        This page does not send automatic notifications.
+    </p>
+
+    <hr>
+
+    <h2>Your Reminders</h2>
+    <div id="reminderList"></div>
+
+    <div class="links">
+        <a th:href="@{/dashboard}">← Dashboard</a>
+        <a th:href="@{/logout}">Logout</a>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById("reminderForm");
+    const reminderList = document.getElementById("reminderList");
+
+    let reminders = [];
+
+    try {
+        reminders = JSON.parse(
+            localStorage.getItem("lifelineReminders") || "[]"
+        );
+
+        if (!Array.isArray(reminders)) {
+            reminders = [];
+        }
+    } catch (error) {
+        reminders = [];
+    }
+
+    function displayReminders() {
+        reminderList.innerHTML = "";
+
+        if (reminders.length === 0) {
+            reminderList.textContent = "No reminders added yet.";
+            return;
+        }
+
+        reminders.forEach(function(reminder, index) {
+            const card = document.createElement("div");
+            card.className = "reminder";
+
+            const heading = document.createElement("h3");
+            heading.textContent = reminder.title;
+
+            const dateTime = document.createElement("p");
+            dateTime.textContent =
+                "Date: " + reminder.date + " | Time: " + reminder.time;
+
+            card.appendChild(heading);
+            card.appendChild(dateTime);
+
+            if (reminder.note) {
+                const note = document.createElement("p");
+                note.textContent = reminder.note;
+                card.appendChild(note);
+            }
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.className = "delete-btn";
+
+            deleteButton.addEventListener("click", function() {
+                reminders.splice(index, 1);
+                saveReminders();
+                displayReminders();
+            });
+
+            card.appendChild(deleteButton);
+            reminderList.appendChild(card);
+        });
+    }
+
+    function saveReminders() {
+        try {
+            localStorage.setItem(
+                "lifelineReminders",
+                JSON.stringify(reminders)
+            );
+        } catch (error) {
+            alert("Unable to save reminders in this browser.");
+        }
+    }
+
+    form.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        reminders.push({
+            title: document.getElementById("title").value.trim(),
+            date: document.getElementById("date").value,
+            time: document.getElementById("time").value,
+            note: document.getElementById("note").value.trim()
+        });
+
+        saveReminders();
+        displayReminders();
+        form.reset();
+    });
+
+    displayReminders();
+</script>
+
+</body>
+</html>
